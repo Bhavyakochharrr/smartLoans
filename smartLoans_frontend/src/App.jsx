@@ -28,7 +28,7 @@ import ApplicationStatus from "./Customer/components/ApplicationStatus";
 import CustomerHome from "./Customer/components/CustomerHome";
 // import AdminDashboard from "./Admin/pages/Dashboard";
 import EMIPayment from "./Customer/components/EMIPayments";
-import PreClosure from "./Customer/components/Preclosure";
+import PreClosure from "./Customer/components/PreClosure";
 import ChatbotComponent from "./Home/components/ChatbotComponent";
 import RoleSelection from "./commons/components/RoleSelection";
 import { useAuth } from "./Home/contexts/AuthContext";
