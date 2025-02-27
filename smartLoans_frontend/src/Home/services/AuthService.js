@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://localhost:4001/api/users";
+const API_URL = "http://18.233.100.171:4001/api/users";
 
 // Function to get token from sessionStorage
 const getToken = () => sessionStorage.getItem("token");

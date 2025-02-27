@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
 
       window.history.pushState(null, null, window.location.pathname);
 
-      const response = await axios.get("https://18.233.100.171:4001/api/users/current");
+      const response = await axios.get("http://18.233.100.171:4001/api/users/current");
       console.log("response", response.data);
 
       if (response.data && response.data.claims) {
