@@ -7,7 +7,7 @@ const cibilController = ()=>{
     
     const getCibilScore = ({panNumber})=> cibilService.getCibilScore(panNumber);
     
-    const updateCibil = ({id})=> userService.getUserById(id);
+    const updateCibil = ({id})=> userService.updateCibil(id);
     
 
     return {

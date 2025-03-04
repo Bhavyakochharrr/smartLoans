@@ -58,30 +58,73 @@ class BankerService {
 
     }
 
-    async getCibil(panNumber){
-        // Call CIBIL API to get credit score
-        const response = await axios.get(`http://localhost:5003/api/cibil/${panNumber}`);
-        console.log("response", response.data);
-        return response.data.cibil_score;
-    }
-
-    async getItr(panNumber){
-        const response = await axios.get(`http://localhost:5002/api/itr/${panNumber}`);
-        console.log("response", response.data);
-        return response.data.annualIncome;
-    }
-
-    async updateScores({panNumber,loanId}){
-        const cibil = await this.getCibil(panNumber);
-        const itr = await this.getItr(panNumber);
-        const loan = await this.loanRepository.findOne({loanId});
-        loan.cibilScore=cibil;
-        loan.itrValue=itr;
-        await loan.save(); 
-        console.log("loan",loan);
-        return loan;  
-    }
-
+    async getCibil(panNumber, token) {
+        try {
+          if (!token) {
+            throw new AuthenticationError('Authentication token is required');
+          }
+      
+          const response = await axios.get(`http://localhost:5003/api/cibil/${panNumber}`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          
+          return response.data.cibil_score || 700;
+        } catch (error) {
+          if (error.response?.status === 401) {
+            throw new AuthenticationError('Invalid or expired token');
+          }
+          throw error;
+        }
+      }
+      
+      async getItr(panNumber, token) {
+        try {
+          if (!token) {
+            throw new AuthenticationError('Authentication token is required');
+          }
+      
+          const response = await axios.get(`http://localhost:5002/api/itr/${panNumber}`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          
+          return response.data.annualIncome || 200000;
+        } catch (error) {
+          if (error.response?.status === 401) {
+            throw new AuthenticationError('Invalid or expired token');
+          }
+          throw error;
+        }
+      }
+      
+      async updateScores({panNumber, loanId, token}) {
+        try {
+          if (!token) {
+            throw new AuthenticationError('Authentication token is required');
+          }
+      
+          const cibil = await this.getCibil(panNumber, token);
+          const itr = await this.getItr(panNumber, token);
+          
+          const loan = await this.loanRepository.findOne({loanId});
+          if (!loan) {
+            throw new NotFoundError(`Loan ${loanId} not found`);
+          }
+          
+          loan.cibilScore = cibil;
+          loan.itrValue = itr;
+          await loan.save();
+          
+          return loan;
+        } catch (error) {
+          console.error('Error updating scores:', error);
+          throw error;
+        }
+      }
+      
 }
 
 BankerService._dependencies = ['loanRepository', 'emiRepository'];

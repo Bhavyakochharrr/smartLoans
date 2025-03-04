@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
     console.log("User:", user);
     console.log("Role:", role);
     console.log("Active Role:", activeRole);
-  }, [token, user, role, activeRole]);
+  }, []);
 
   useEffect(() => {
     if (storedToken) {
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
 
       window.history.pushState(null, null, window.location.pathname);
 
-      const response = await axios.get("http://18.233.100.171:4001/api/users/current");
+      const response = await axios.get("https://localhost:4001/api/users/current");
       console.log("response", response.data);
 
       if (response.data && response.data.claims) {
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
         sessionStorage.setItem("role", JSON.stringify(response.data.claims.roles));
         sessionStorage.setItem("user", JSON.stringify(response.data.claims));
       } else {
-        console.error("Roles not found in response");
+        toast.error("Roles not found in response");
         setRole([]);
       }
     } catch (error) {

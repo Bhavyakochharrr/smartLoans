@@ -1,5 +1,5 @@
 const {MongooseRepository} = require('ca-webutils')
-
+const {NotFoundError} =require('ca-webutils/errors')
 class MongooseUserRepository extends MongooseRepository {
     constructor(model){
         super(model);

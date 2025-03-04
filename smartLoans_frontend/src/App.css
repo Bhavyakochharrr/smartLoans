@@ -24,7 +24,7 @@
 }
 
 .bg{
-  background-color: #41B3A2;
+  background-color: #41B3A2 !important;
 }
 .progress-circle {
   position: relative;
@@ -304,6 +304,7 @@
   font-weight: bold;
   font-size: 1.2em;
 }
+
 
 @keyframes progress {
   0% {

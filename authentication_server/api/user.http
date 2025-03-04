@@ -1,4 +1,4 @@
-@api_url = http://18.233.100.171:4001/api/users
+@api_url = https://localhost:4001/api/users
 
 @expired_token = eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJVc2VyQXV0aGVudGljYXRvciIsImlhdCI6MTczODE3MzY3OCwiZXhwIjoxNzM4MTc3Mjc4LCJjbGFpbXMiOnsibmFtZSI6IlZpdmVrIER1dHRhIE1pc2hyYSIsImVtYWlsIjoidml2ZWtAZ21haWwuY29tIiwicGhvdG8iOiJ2aXZlay5qcGciLCJyb2xlcyI6WyJhdXRob3IiLCJlZGl0b3IiXSwiYWN0aXZlIjp0cnVlfX0.usHFYWuebJGS_hMP55AbiexhjGEArKHF5uEmJqGYK3dYTC-ltf34OEi3Tn7YfxBaATra_ilb4FCkk8-MnLCXDLNyf4NQ9vmH4uD0I77PV6CPUd3s1-eLgjl177hQ0ooxrUhJH3zgpxZJQvSBdaVICkTSTaJShh2KXa23dfVwzrKLtKrHPWtG6vh851bRvVFuw5mGegZRXWLodl1xwPI-QpGlCO3bsvP77VKvT_M6rjV5_lVwUoxgOF0YCE_yPTrYBAKs_9joyukLqlHaAWQnszjMukISzGvW_heU7MiScS-9gJjzllsD85e0xb4QtTEGUEzseDORnRZsyP7KerVnqg
 
@@ -115,7 +115,7 @@ POST {{api_url}}/addRole
 Content-Type: application/json
 
 {
-    "email":"bhavya@gmail.com",
+    "email":"thanmaig.142@gmail.com",
     "role":"admin"
 }
 

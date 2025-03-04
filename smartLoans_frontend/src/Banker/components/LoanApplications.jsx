@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { Button } from "react-bootstrap";
 import { BankerContext } from "../contexts/BankerContext";
-
+ 
 const LoanApplications = () => {
   const { loans, handleViewDetails } = useContext(BankerContext);
-
+ 
   return (
     <div>
       <h2>Loan Applications</h2>
@@ -27,7 +27,11 @@ const LoanApplications = () => {
                   <td>₹{loan.loanAmount}</td>
                   <td>{loan.status}</td>
                   <td>
-                    <Button variant="info" onClick={() => handleViewDetails(loan, loanIndex)}>
+                    <Button
+                      variant="primary"
+                      style={{ backgroundColor: "#E3735E", borderColor: "green" }}
+                      onClick={() => handleViewDetails(loan, loanIndex)}
+                    >
                       Review Application
                     </Button>
                   </td>
@@ -41,5 +45,6 @@ const LoanApplications = () => {
     </div>
   );
 };
-
+ 
 export default LoanApplications;
+ 

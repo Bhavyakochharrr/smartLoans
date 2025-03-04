@@ -1,7 +1,5 @@
 const express = require('express');
 const bankerRoutes=require('./routes/banker.route')
-const adminRoutes=require('./routes/admin.routes')
-const userRoutes = require('./routes/user.route')
 const emiRoutes=require('./routes/emi.route')
 const preclosureRoutes=require('./routes/preclosure.route')
 const loanRoutes=require('./routes/loan.route');
@@ -24,9 +22,6 @@ async function createApp(){
     app.use('/api/emi/', emiRoutes());
     app.use('/api/preclosure/', preclosureRoutes());
     app.use('/api/loan/', loanRoutes());
-    app.use('/api/admins', userRoutes());
-    app.use('/api/admins',adminRoutes());
-
     return app;
 }
 

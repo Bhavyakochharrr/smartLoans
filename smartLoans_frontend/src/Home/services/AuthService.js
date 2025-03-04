@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const API_URL = "http://18.233.100.171:4001/api/users";
+const API_URL = "http://localhost:4001/api/users";
 
-// Function to get token from sessionStorage
+// Function to get token from localStorage
 const getToken = () => sessionStorage.getItem("token");
 
 // Axios instance with Authorization header
@@ -36,6 +36,7 @@ export const loginUser = async (email, password) => {
 export const fetchCurrentUser = async () => {
   try {
     const response = await apiClient.get("/current");
+    console.log("response",response);
     return response.data;
   } catch (error) {
     console.error("Error fetching user details:", error);

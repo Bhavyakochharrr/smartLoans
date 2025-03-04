@@ -9,7 +9,7 @@ class ITRService{
         console.log(`panNumber: ${panNumber}`);
         if(!panNumber) throw new ValidationError(`Pan Number is required`);
         const itrData=await this.itrRepository.findOne({panNumber});
-        return itrData; 
+        return itrData || {annualIncome:200000}; 
     }
 
 }

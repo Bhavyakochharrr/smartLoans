@@ -2,9 +2,7 @@ import React, { useContext } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 import { BankerContext } from "../contexts/BankerContext";
 import DocumentViewer from "../components/ViewDocument";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+ 
 const LoanDetailsModal = () => {
   const {
     selectedLoan,
@@ -24,19 +22,9 @@ const LoanDetailsModal = () => {
     handleDocumentVerification,
     handleRemarksChange,
     handleDownload,
-    handleViewDocument,
+    handleViewDocument
   } = useContext(BankerContext);
-
-  const handleReject = () => {
-    handleStatusChange(selectedLoan.loanId, "reject", remarks);
-    toast.error("Loan application rejected");
-  };
-
-  const handleApprove = () => {
-    handleStatusChange(selectedLoan.loanId, "approve", remarks);
-    toast.success("Loan application approved");
-  };
-
+ 
   return (
     <>
       {selectedLoan && (
@@ -51,7 +39,7 @@ const LoanDetailsModal = () => {
                   <p><strong>Customer:</strong> {selectedLoan.customerName}</p>
                   <p><strong>Email:</strong> {selectedLoan.email}</p>
                   <p><strong>Account Number:</strong> {selectedLoan.accountNumber}</p>
-                  <p><strong>PAN Number:</strong> {selectedLoan.pannumber}</p>
+                  <p><strong>PAN Number:</strong> {selectedLoan.panNumber}</p>
                 </div>
                 <div className="col-md-6">
                   <p><strong>Loan Amount:</strong> ₹{selectedLoan.loanAmount}</p>
@@ -98,7 +86,7 @@ const LoanDetailsModal = () => {
                   <div className="d-flex justify-content-between mt-4">
                     <Button
                       variant="danger"
-                      onClick={handleReject}
+                      onClick={() => handleStatusChange(selectedLoan.loanId, "reject", remarks)}
                       disabled={isButtonsDisabled}
                       style={{ backgroundColor: '#ff6b6b', borderColor: '#ff6b6b' }}
                     >
@@ -106,7 +94,7 @@ const LoanDetailsModal = () => {
                     </Button>
                     <Button
                       variant="success"
-                      onClick={handleApprove}
+                      onClick={() => handleStatusChange(selectedLoan.loanId, "approve", remarks)}
                       disabled={isButtonsDisabled}
                       style={{ backgroundColor: '#41B3A2', borderColor: '#41B3A2' }}
                     >
@@ -132,9 +120,8 @@ const LoanDetailsModal = () => {
           onClose={() => setShowViewer(false)}
         />
       )}
-      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
     </>
   );
 };
-
+ 
 export default LoanDetailsModal;

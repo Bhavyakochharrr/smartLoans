@@ -1,27 +1,23 @@
-import axios from "axios";
+// src/services/loanDetailsService.js
+import { loanApiClient } from "./apiClient";
+import { API_CONFIG } from "../config/apiConfig";
 
 export const fetchLoanDetailsService = async (accountNumber) => {
   try {
-    const response = await axios.get("http://localhost:2000/api/loan", {
+    const response = await loanApiClient.get(API_CONFIG.ENDPOINTS.LOANS, {
       params: { accountNumber }
     });
-
-    console.log("Loan details:", response.data);
 
     if (!response.data || !response.data.loans) {
       return { totalLoans: 0, typeOfLastLoan: null };
     }
 
-    // **Step 1: Filter loans with status "Approved" or "Pending"**
     const filteredLoans = response.data.loans.filter(
       (loan) => loan.status.toLowerCase() === "approved" || loan.status.toLowerCase() === "pending"
     );
 
-    // **Step 2: Check the count condition**
     if (filteredLoans.length < 2) {
-      // **Step 3: Get the last loan's type**
       const lastLoanType = filteredLoans.length > 0 ? filteredLoans[filteredLoans.length - 1].loanType : null;
-
       return {
         totalLoans: filteredLoans.length,
         typeOfLastLoan: lastLoanType

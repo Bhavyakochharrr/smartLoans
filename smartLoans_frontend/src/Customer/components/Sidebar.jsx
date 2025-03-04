@@ -13,7 +13,6 @@ const Sidebar = ({ isSidebarOpen }) => {
       <Nav className="flex-column w-100 px-3">
         <Nav.Link as={Link} to="/customer-dashboard" className="text-white"><FiHome className="me-2" />{isSidebarOpen && "Dashboard"}</Nav.Link>
         <Nav.Link as={Link} to="/customer-dashboard/profile" className="text-white"><FiUser className="me-2" />{isSidebarOpen && "Profile"}</Nav.Link>
-        <Nav.Link as={Link} to="/customer-dashboard/account-management" className="text-white"><FiUser className="me-2" />{isSidebarOpen && "Account Management"}</Nav.Link>
         <Nav.Link as={Link} to="/customer-dashboard/apply-loan" className="text-white"><FiPlusSquare className="me-2" />{isSidebarOpen && "Apply Loan"}</Nav.Link>
         <Nav.Link as={Link} to="/customer-dashboard/loan-details" className="text-white"><FiFileText className="me-2" />{isSidebarOpen && "Loan Details"}</Nav.Link>
         <Nav.Link as={Link} to="/customer-dashboard/application-status" className="text-white"><FiCheckCircle className="me-2" />{isSidebarOpen && "Application Status"}</Nav.Link>

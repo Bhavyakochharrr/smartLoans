@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, Button, Container, Row, Col } from "react-bootstrap";
-import { FaHome, FaGraduationCap, FaUserTie, FaGem } from "react-icons/fa";
+import { FaHome, FaGraduationCap, FaUserTie, FaCoins } from "react-icons/fa";
 import { FiSun, FiMoon } from "react-icons/fi";
 
 const loans = [
   { title: "Home Loan", description: "Own your dream home with easy EMIs and low interest rates.", icon: <FaHome size={50} color="#2D98A6" /> },
   { title: "Education Loan", description: "Invest in your future with hassle-free education financing.", icon: <FaGraduationCap size={50} color="#F5A623" /> },
   { title: "Personal Loan", description: "Get quick and flexible personal loans for your needs.", icon: <FaUserTie size={50} color="#E27D60" /> },
-  { title: "Gold Loan", description: "Unlock the value of your gold with instant cash loans.", icon: <FaGem size={50} color="#C38D9E" /> },
+  { title: "Gold Loan", description: "Unlock the value of your gold with instant cash loans.", icon: <FaCoins size={50} color="#C38D9E" /> },
 ];
 
 const Home = () => {
@@ -16,7 +16,7 @@ const Home = () => {
   const navigate = useNavigate();
   const [typedText, setTypedText] = useState("");
   const message = "WELCOME TO SMART LOANS";
-  const [theme, setTheme] = useState(sessionStorage.getItem("theme") || "light");
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   // // **Fully Fixed Typing Effect**
   useEffect(() => {
@@ -36,11 +36,11 @@ const Home = () => {
   // Dark Mode Toggle
   useEffect(() => {
     document.body.setAttribute("data-theme", theme);
-    sessionStorage.setItem("theme", theme);
+    localStorage.setItem("theme", theme);
   }, [theme]);
 
   const handleApplyNow = () => {
-    const isLoggedIn = sessionStorage.getItem("token");
+    const isLoggedIn = localStorage.getItem("token");
     navigate(isLoggedIn ? "/loan-application" : "/login");
   };
 

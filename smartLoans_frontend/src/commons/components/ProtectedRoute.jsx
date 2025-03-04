@@ -10,9 +10,6 @@ const ProtectedRoute = ({ component: Component, allowedRoles }) => {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  if (!user) {
-    return <Navigate to="/login" state={{ message: "User session expired" }} replace />;
-  }
 
   if (!role || role.length === 0) {
     return <Navigate to="/unauthorized" state={{ message: "No roles assigned" }} replace />;

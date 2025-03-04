@@ -4,7 +4,7 @@ import { useAuth } from "../../Home/contexts/AuthContext";
 
 
 const RoleBasedFooter = () => {
-  const {role}=useAuth(); // Fetch role from sessionStorage (or use Context/Redux)
+  const {role}=useAuth(); // Fetch role from localStorage (or use Context/Redux)
   //const [darkMode, setDarkMode] = useState(false);
   if (role?.includes('user') || role?.includes('banker') || role?.includes('admin')) {
     return ;

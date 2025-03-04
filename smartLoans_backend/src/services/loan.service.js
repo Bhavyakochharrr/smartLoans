@@ -123,7 +123,6 @@ class LoanService{
             message:"Loans retrieved successfully!",
             loans
         }
- 
     }
 }
 

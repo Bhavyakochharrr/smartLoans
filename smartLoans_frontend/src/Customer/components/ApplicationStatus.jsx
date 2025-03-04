@@ -1,34 +1,28 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useAuth } from "../../Home/contexts/AuthContext";
- 
+import { fetchLoanApplications } from "../services/loanService";
+
 const ApplicationStatus = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { user } = useAuth();
- 
+
   useEffect(() => {
-    const fetchLoanApplications = async () => {
+    const getLoanApplications = async () => {
       try {
-        console.log("accountNumber", user.accountNumber);
-        const response = await axios.get("http://localhost:2000/api/loan", {
-          params: {
-            accountNumber: user?.accountNumber,
-          },
-        });
-        console.log("response", response.data);
-        setApplications(response.data.loans);
+        const response = await fetchLoanApplications(user?.accountNumber);
+        setApplications(response.loans);
       } catch (err) {
         setError("Failed to fetch applications");
       } finally {
         setLoading(false);
       }
     };
- 
-    fetchLoanApplications();
+
+    getLoanApplications();
   }, [user]);
- 
+
   return (
     <div>
       <h2>Loan Application Status</h2>
@@ -37,7 +31,7 @@ const ApplicationStatus = () => {
       {!loading && !error && applications.length === 0 && (
         <p>No loan applications found.</p>
       )}
- 
+
       {!loading && !error && applications.length > 0 && (
         <table className="table table-bordered">
           <thead>
@@ -56,16 +50,28 @@ const ApplicationStatus = () => {
                 <td>${app.loanAmount}</td>
                 <td>
                   <span
-                    className={`badge ${
-                      app.status.toLowerCase() === "approved"
-                        ? "bg-success"
+                    className={`badge ${app.status.toLowerCase() === "approved"
+                        ? "text-white"
                         : app.status.toLowerCase() === "pending"
-                        ? "bg-warning"
-                        : "bg-danger"
-                    }`}
+                          ? "bg-warning text-dark"
+                          : app.status.toLowerCase() === "rejected"
+                            ? "bg-danger text-white"
+                            : app.status.toLowerCase() === "completed"
+                              ? "text-white"
+                              : "bg-light text-dark"
+                      }`}
+                    style={{
+                      backgroundColor: app.status.toLowerCase() === "completed" ? "#03C04A" : app.status.toLowerCase() === 'approved' ? "#41B3A2" : "",
+                      padding: "5px 10px",
+                      borderRadius: "5px",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                    }}
                   >
                     {app.status}
                   </span>
+
+
                 </td>
                 <td>
                   {/* Show submittedOn date */}
@@ -87,5 +93,5 @@ const ApplicationStatus = () => {
     </div>
   );
 };
- 
+
 export default ApplicationStatus;

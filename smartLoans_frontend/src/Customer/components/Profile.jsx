@@ -1,18 +1,15 @@
 import React, { useState } from "react";
-import { Container, Form, Button, Modal } from "react-bootstrap";
-import { useAuth } from "../../Home/contexts/AuthContext"; // Adjust the path based on your project
-import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Container, Form, Button, Modal, Alert } from "react-bootstrap";
+import { useAuth } from "../../Home/contexts/AuthContext";
+import { updateUserProfile, changePassword } from "../services/profileService";
 
 const ProfilePage = () => {
-  const { user, setUser } = useAuth(); // Get user details from context
+  const { user, setUser, token } = useAuth(); // Get user details from context
   const [hover, setHover] = useState(false);
   const [formData, setFormData] = useState({
     accountNumber: user?.accountNumber || "",
     name: user?.name || "",
     email: user?.email || "",
-    mobile: user?.mobile || "",
   });
 
   const [showPasswordModal, setShowPasswordModal] = useState(false);
@@ -22,58 +19,50 @@ const ProfilePage = () => {
     confirmPassword: "",
   });
 
+  const [message, setMessage] = useState(null);
+  const [error, setError] = useState(null);
+
   // Handle input change for user details
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Save profile changes
   const handleSaveChanges = async () => {
     try {
-      console.log("formData", formData);
-      const response = await axios.patch(
-        "https://localhost:4001/api/users/update", 
-        formData
-      );
-      console.log("response", response.data);
-      
-      setUser(response.data.user);
-      sessionStorage.setItem("user", JSON.stringify(response.data.user)); // Update auth context
-      
-      toast.success("Profile updated successfully!", { autoClose: 3000 });
+      const response = await updateUserProfile(formData);
+      setUser(response.user);
+      sessionStorage.setItem("user", JSON.stringify(response.user));
+      setMessage("Profile updated successfully!");
     } catch (error) {
-      toast.error("Failed to update profile. Please try again.", { autoClose: 3000 });
+      setError("Failed to update profile.");
     }
   };
 
-  // Handle password change
   const handlePasswordChange = async () => {
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      toast.error("Passwords do not match!", { autoClose: 3000 });
+      setError("Passwords do not match!");
       return;
     }
 
     try {
-      console.log("passwordData", passwordData);
-      await axios.patch(
-        "https://localhost:4001/api/users/change-password",
-        passwordData
-      );
-      
-      toast.success("Password changed successfully!", { autoClose: 3000 });
-      
+      await changePassword({
+        ...passwordData,
+        email: user.email
+      });
+      setMessage("Password changed successfully!");
       setShowPasswordModal(false);
       setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
     } catch (error) {
-      toast.error("Failed to change password. Please try again.", { autoClose: 3000 });
+      setError("Failed to change password.");
     }
   };
 
   return (
     <Container className="mt-5">
-      <ToastContainer />
-
       <h2 className="mb-4">User Profile</h2>
+      
+      {message && <Alert variant="success">{message}</Alert>}
+      {error && <Alert variant="danger">{error}</Alert>}
 
       <Form>
         <Form.Group className="mb-3">
@@ -112,23 +101,19 @@ const ProfilePage = () => {
         </Form.Group>
 
         <Button
-          onClick={handleSaveChanges}
-          onMouseEnter={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
-          style={{
-            backgroundColor: hover ? "#41B3A2" : "white",
-            color: hover ? "white" : "#41B3A2",
-            borderColor: "#41B3A2",
-          }}
-        >
-          Save Changes
-        </Button>
+      onClick={handleSaveChanges}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        backgroundColor: hover ? "#41B3A2" : "white",
+        color: hover ? "white" : "#41B3A2",
+        borderColor: "#41B3A2",
+      }}
+    >
+      Save Changes
+    </Button>
 
-        <Button 
-          variant="secondary" 
-          className="ms-2" 
-          onClick={() => setShowPasswordModal(true)}
-        >
+        <Button variant="secondary" className="ms-2" onClick={() => setShowPasswordModal(true)}>
           Change Password
         </Button>
       </Form>
@@ -166,7 +151,7 @@ const ProfilePage = () => {
                 type="password" 
                 name="confirmPassword"
                 value={passwordData.confirmPassword}
-                onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value, email: user.email })}
+                onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value,email:user.email })}
               />
             </Form.Group>
 

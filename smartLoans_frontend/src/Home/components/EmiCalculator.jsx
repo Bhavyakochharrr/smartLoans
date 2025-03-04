@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../EmiCalculator.css";
+import "../css/EmiCalculator.css";
 
 export default function EmiCalculator() {
   const [loanAmount, setLoanAmount] = useState(500000);

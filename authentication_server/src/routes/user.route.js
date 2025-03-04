@@ -22,8 +22,12 @@ const createRouter = ()=>{
         .post(routeHandler(controller.login));
 
     router
-        .route("/:email/activate")
+        .route("/activate")
         .patch(authorize('admin'),routeHandler(controller.activateUser));
+
+    router
+        .route("/deactivate")
+        .patch(authorize('admin'),routeHandler(controller.deactivateUser));
 
     router
         .route('/current')

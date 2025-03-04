@@ -36,7 +36,7 @@ const RoleSelection = () => {
       <div className="d-flex gap-3 justify-content-center">
         {role?.includes('user') && (
           <button 
-            className="btn btn-primary"
+            className="btn userBtn"
             onClick={() => handleRoleSelect('user')}
           >
             Continue as Customer
@@ -44,7 +44,7 @@ const RoleSelection = () => {
         )}
         {role?.includes('banker') && (
           <button 
-            className="btn authButton"
+            className="btn bankerBtn"
             onClick={() => handleRoleSelect('banker')}
           >
             Continue as Banker
@@ -52,7 +52,7 @@ const RoleSelection = () => {
         )}
         {role?.includes('admin') && (
           <button 
-            className="btn authButton"
+            className="btn adminBtn"
             onClick={() => handleRoleSelect('admin')}
           >
             Continue as Admin
@@ -61,8 +61,9 @@ const RoleSelection = () => {
       </div>
       <div className="text-center mt-4">
         <button 
-          className="btn btn-secondary"
+          className="btn"
           onClick={handleLogout}
+          style={{backgroundColor:"#2e4fe9de", color:"#fff"}}
         >
           Logout
         </button>

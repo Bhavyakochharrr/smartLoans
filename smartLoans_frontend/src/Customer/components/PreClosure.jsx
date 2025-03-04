@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Card, Form, Button, Alert } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { submitPreclosureRequest } from '../services/preClosureService';
 
 const PreClosure = () => {
   const location = useLocation();
@@ -23,8 +23,7 @@ const PreClosure = () => {
     setLoading(true);
 
     try {
-      console.log('preclosureDetails', preclosureDetails);
-      const response = await axios.post(`http://localhost:2000/api/preclosure/${loanDetails.loanId}`, {
+      const response = await submitPreclosureRequest(loanDetails.loanId, {
         amount: preclosureDetails.amount,
         paymentMethod: 'upi',
         paymentDetails: {
@@ -32,7 +31,7 @@ const PreClosure = () => {
         }
       });
 
-      if (response.data.success) {
+      if (response.success) {
         alert('Preclosure request submitted successfully!');
         navigate('/customer-dashboard/application-status');
       }
@@ -42,6 +41,7 @@ const PreClosure = () => {
       setLoading(false);
     }
   };
+
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-IN', {

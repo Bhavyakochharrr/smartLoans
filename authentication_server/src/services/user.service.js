@@ -6,14 +6,13 @@ class UserService{
         this.userRepository = userRepository;
     }
 
-    // async getAllUsers(){
-    //     const users = await this.userRepository.getAll();
-    //     return users.map(this._userInfo);
-    // }
+    async getAllUsers(){
+        const users = await this.userRepository.getAll();
+        return users.map(this._userInfo);
+    }
 
     _userInfo(user){
         return {name:user.name, email:user.email, photo:user.photo, roles:user.roles,active:user.active,accountNumber:user.accountNumber,phone:user.phone,address:user.address};
-
     }
 
     // async register(user){
@@ -25,9 +24,6 @@ class UserService{
     //     return this._userInfo(dbUser);
     // }
     async register(user) {
-        const admin = user.roles?.find(role => role.toLowerCase() === "admin");
-        if (admin) throw new AuthorizationError("Admin user cannot be created manually");
-    
         user.password = await bcrypt.hash(user.password, 10);
     
         // Generate unique 8-digit account number
@@ -71,19 +67,34 @@ class UserService{
         return user;
     }
 
-    async activateUser(email,activate=true){
+    async activateUser({email}){
         let user = await this.userRepository.getById(email);
-        user.active=activate;
+        user.active=true;
         return await user.save();
     }
 
-    async addUserToRole({email,role}){
-        return await this.userRepository.update({email}, {$push: {roles:role}});
+    async deactivateUser({email}){
+        let user=await this.userRepository.getById(email);
+        user.active=false;
+        return await user.save();
     }
 
-    async removeUserFromRole(email,role){
-        return await this.userRepository.update({email}, {$pull: {roles:role}});
+    async addUserToRole({email, role}) {
+        
+        return await this.userRepository.update(
+            { email }, 
+            { $set: { roles: [role] } }
+        );
     }
+    
+    async removeUserFromRole(email) {
+        // Reset role to default "user"
+        return await this.userRepository.update(
+            { email }, 
+            { $set: { role: ["user"] } }
+        );
+    }
+    
 
     async changePassword({email, currentPassword , newPassword}){
 
@@ -202,20 +213,23 @@ class UserService{
 
         } catch (error) {
             console.error("Email sending failed:", error);
-            throw new Error("Failed to send OTP. Please try again.");
+            throw new ValidationError("Failed to send OTP. Please try again.");
         }
     }
-    async updateProfile({ name, email, accountNumber }) {
+    async updateProfile({ name, email, accountNumber,phone,address }) {
         const user = await this.userRepository.findOne({ accountNumber });
         console.log("user",user);
         if (!user) {
-            throw new Error("User not found");
+            throw new NotFoundError("User not found");
         }
     
         user.name = name;
         user.email = email;
-    
-        return await user.save();
+        user.phone=phone;
+        user.address=address;
+
+        await user.save();
+        return this._userInfo(user);
     }
     
 }

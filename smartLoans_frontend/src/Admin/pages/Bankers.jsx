@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Modal, Container, Row, Col, Card } from "react-bootstrap";
-import { getBankers, deleteBanker } from "../services/authService";
+import { Table, Button, Modal, Form, Container, Row, Col, Card } from "react-bootstrap";
+import { getBankers, addBanker, deleteBanker } from "../services/authService";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -8,6 +8,10 @@ const Bankers = () => {
   const [bankers, setBankers] = useState([]);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const validRoles = ["Loan Officer", "Senior Banker", "Banker"];
+  const [newBanker, setNewBanker] = useState({ name: "", email: "", phone: "", role: validRoles[0], branch: "", username: "" });
+  const [editBankerId, setEditBankerId] = useState(null);
+  const [newRole, setNewRole] = useState("");
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [bankerToDelete, setBankerToDelete] = useState(null);
   const [selectedBanker, setSelectedBanker] = useState(null);
@@ -27,7 +31,25 @@ const Bankers = () => {
   const openModal = () => setShowModal(true);
   const closeModal = () => {
     setShowModal(false);
+    setNewBanker({ name: "", email: "", phone: "", gender: "", address: "", accountNumber: "", pannumber: "", aadharnumber: "" });
     setSelectedBanker(null);
+  };
+
+  const handleInputChange = (e) => {
+    setNewBanker({ ...newBanker, [e.target.name]: e.target.value });
+  };
+
+  const handleAddBanker = async () => {
+    try {
+      const bankerData = { ...newBanker, password: "Passadmin@234" };
+      const addedBanker = await addBanker(bankerData);
+      setBankers(prevBankers => [...prevBankers, addedBanker.data]); // Ensure addedBanker.data is used
+      setNewBanker({ name: "", email: "", phone: "", gender: "", address: "", accountNumber: "", pannumber: "", aadharnumber: "" });
+      setShowModal(false);
+      toast.success("Banker added successfully!");
+    } catch (err) {
+      console.error("Error adding banker:", err.response?.data || err.message);
+    }
   };
 
   const openDeleteConfirmation = (banker) => {
@@ -47,7 +69,7 @@ const Bankers = () => {
       closeDeleteConfirmation();
       toast.success("Banker deleted successfully!");
     } catch (err) {
-      toast.error("Error deleting banker:", err.response?.data || err.message);
+      console.error("Error deleting banker:", err.response?.data || err.message);
       setError("Error deleting banker");
     }
   };
@@ -56,6 +78,7 @@ const Bankers = () => {
     setSelectedBanker(banker);
     setShowModal(true);
   };
+
 
   return (
     <Container fluid>
@@ -69,6 +92,7 @@ const Bankers = () => {
           </Card>
         </Col>
       </Row>
+      <Button className="mb-3" onClick={openModal}>Add Banker</Button>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -91,15 +115,16 @@ const Bankers = () => {
             </tr>
           ))}
         </tbody>
+
       </Table>
 
-      {/* Banker Info Modal */}
+      {/* Add Banker Modal */}
       <Modal show={showModal} onHide={closeModal} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Banker Information</Modal.Title>
+          <Modal.Title>{selectedBanker ? "Banker Information" : "Add New Banker"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {selectedBanker && (
+          {selectedBanker ? (
             <Card>
               <Card.Body>
                 <div className="mb-6">
@@ -120,10 +145,47 @@ const Bankers = () => {
                 </div>
               </Card.Body>
             </Card>
+          ) : (
+            <Form>
+              <Form.Group className="mb-3">
+                <Form.Label>Name</Form.Label>
+                <Form.Control type="text" name="name" value={newBanker.name} onChange={handleInputChange} />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Email</Form.Label>
+                <Form.Control type="email" name="email" value={newBanker.email} onChange={handleInputChange} />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Phone</Form.Label>
+                <Form.Control type="text" name="phone" value={newBanker.phone} onChange={handleInputChange} />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Gender</Form.Label>
+                <Form.Control type="text" name="gender" value={newBanker.gender} onChange={handleInputChange}/>
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Account Number</Form.Label>
+                <Form.Control type="text" name="accountNumber" value={newBanker.accountNumber} onChange={handleInputChange} />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Address</Form.Label>
+                <Form.Control type="text" name="address" value={newBanker.address} onChange={handleInputChange} placeholder="Enter Address" />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>PAN Number</Form.Label>
+                <Form.Control type="text" name="pannumber" value={newBanker.pannumber} onChange={handleInputChange} placeholder="Enter PAN Number" />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Aadhar Number</Form.Label>
+                <Form.Control type="text" name="aadharnumber" value={newBanker.aadharnumber} onChange={handleInputChange} placeholder="Enter Aadhar Number" />
+              </Form.Group>
+              <Button variant="primary" onClick={handleAddBanker}>Add Banker</Button>
+            </Form>
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={closeModal}>Close</Button>
+          <Button variant="secondary" onClick={closeModal}>Cancel</Button>
+          {!selectedBanker && <Button variant="primary" onClick={handleAddBanker}>Add Banker</Button>}
         </Modal.Footer>
       </Modal>
 

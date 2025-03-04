@@ -67,7 +67,7 @@ const Register = () => {
     if (!validateForm()) return;
  
     try {
-      await axios.post("http://18.233.100.171:4001/api/users", formData);
+      await axios.post("https://localhost:4001/api/users", formData);
       setSuccess("User registered successfully!");
       setTimeout(() => navigate("/home"), 2000);
     } catch (err) {

@@ -13,15 +13,11 @@ const MongooseLoanRepository = require('./repositories/mongoose/loan.repository'
 const BankerService = require('./services/banker.service');
 const PreclosureService = require('./services/preclosure.service');
 const LoanService = require('./services/loan.service');
-const UserService=require('./services/user.service')
-const User =require('./repositories/mongoose/models/user.model')
-const MongooseUserRepository = require('./repositories/mongoose/user.repository');
 
 
 
 injector
     .addServiceObject('emi', EMI)
-    .addServiceObject('user', User)
     .addServiceObject('transaction', Transactions)
     .addServiceObject('loan', Loan)
     .addService('emiRepository', MongooseEMIRepository)
@@ -31,7 +27,5 @@ injector
     .addService('emiService', EMIService)
     .addService('preclosureService', PreclosureService)
     .addService('loanService', LoanService)
-    .addService('userRepository', MongooseUserRepository)
-    .addService('userService', UserService)
 
 console.log('injector.container',injector.container);

@@ -107,13 +107,12 @@ const Customers = () => {
       const updatedBankers = await getBankers();
       setBankers(updatedBankers);
     } catch (error) {
-      console.error("Error updating role to banker:", error.response?.data || error.message);
-      
+      console.error("Error updating role to banker:", error.response?.data || error.message);  
     }
   };
 
   return (
-    <Container fluid > 
+    <Container fluid>
       <h1 className="my-4">Customer Management</h1>
 
       {error && <p style={{ color: "red" }}>{error}</p>}

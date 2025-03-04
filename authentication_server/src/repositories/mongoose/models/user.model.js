@@ -5,8 +5,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        minlength: 2,
-        maxlength: 50
+        minlength: [3, "Name must be at least 3 characters long"],
+        maxlength: [50, "Name cannot exceed 50 characters"],
+        validate: {
+            validator: function(value) {
+                return /^[a-zA-Z\s]+$/.test(value);
+            },
+            message: "Name can only contain letters and spaces"
+        }
     },
     email: {
         type: String,
@@ -35,7 +41,7 @@ const userSchema = new mongoose.Schema({
     roles: { 
         type: [String], 
         enum: ["user", "banker", "admin"],
-        default: ["user"]
+        default: ["user"],
     },
     active: {
         type: Boolean,

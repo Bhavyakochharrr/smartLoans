@@ -10,7 +10,7 @@ class CibilService{
             throw new ValidationError('Missing PAN Number');
         }
         const cibilData=await this.cibilRepository.findOne({panNumber});
-        return cibilData;
+        return cibilData || {cibil_score:700};
 
     }
 
