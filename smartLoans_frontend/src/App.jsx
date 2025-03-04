@@ -37,6 +37,39 @@ import PublicRoute from "./components/commons/PublicRoute";
 import CreateUser from "./components/Admin/CreateUser";
 import ActivateUser from "./components/Admin/ActivateUser";
 const App = () => {
+  const { token, role } = useAuth();
+
+  useEffect(() => {
+    const handleBackButton = (event) => {
+      if (!token) return; // Allow normal back navigation if user is not logged in
+  
+      const currentPath = window.location.pathname;
+  
+      // Prevent navigating back if on dashboard or loan application pages
+      if (currentPath.includes("dashboard") || currentPath.includes("apply-loan")) {
+        event.preventDefault();
+        window.history.pushState(null, "", currentPath);
+      }
+    };
+  
+    if (token) {
+      // Only add a history state if not already present
+      if (!window.history.state) {
+        window.history.replaceState({ from: window.location.pathname }, "", window.location.pathname);
+      }
+  
+      window.addEventListener("popstate", handleBackButton);
+    }
+  
+    return () => {
+      if (token) {
+        window.removeEventListener("popstate", handleBackButton);
+      }
+    };
+  }, [token]); // Removed `role` from dependencies to prevent unnecessary re-runs
+  
+
+
   return (
     <Router>
       <RoleBasedNavBar />

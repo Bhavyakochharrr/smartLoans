@@ -22,13 +22,8 @@ export const AuthProvider = ({ children }) => {
         const payload = JSON.parse(atob(currentToken.split('.')[1]));
         const expirationTime = payload.exp * 1000; // Convert to milliseconds
         const currentTime = Date.now();
-        
-        console.log('Current time:', new Date(currentTime).toISOString());
-        console.log('Expiration time:', new Date(expirationTime).toISOString());
-        console.log('Time until expiration:', (expirationTime - currentTime) / 1000, 'seconds');
 
         if (currentTime >= expirationTime) {
-          console.log('Token expired, logging out...');
           logout();
           return false;
         }
