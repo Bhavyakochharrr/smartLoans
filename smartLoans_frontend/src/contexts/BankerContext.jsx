@@ -45,7 +45,7 @@ export const BankerProvider = ({ children, token, user }) => {
  
   const handleViewDetails = async (loan, loanIndex) => {
     try {
-      const response = await axios.patch(`http://localhost:2000/api/banker/scores`, {
+      const response = await axios.patch(`http://18.235.240.97:2000/api/banker/scores`, {
         loanId: loan.loanId,
         panNumber: loan.panNumber,token
       },{
@@ -66,7 +66,7 @@ export const BankerProvider = ({ children, token, user }) => {
  
   const handleStatusChange = async (loanId, status, remarks) => {
     try {
-      await axios.patch(`http://localhost:2000/api/banker/${status}`, { loanId, remarks });
+      await axios.patch(`http://18.235.240.97:2000/api/banker/${status}`, { loanId, remarks });
       fetchLoans(); // Refresh loan list
       setShowModal(false);
     } catch (error) {
