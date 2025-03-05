@@ -74,12 +74,11 @@ const App = () => {
     <Router>
       <RoleBasedNavBar />
       <Routes>
-        <Route path="/" element={<NavigateToRole />} />
-        <Route path="/home" element={<PublicRoute component={Home} />} />
-        <Route path="/login" element={<PublicRoute component={Login} />} />
-        <Route path="/forgotPassword" element={<PublicRoute component={ForgotPassword} />} />
-        <Route path="/register" element={<PublicRoute component={Registration} />} />
-        <Route path="/emi-calculator" element={<PublicRoute component={EmiCalculator} />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/forgotPassword" element={<ForgotPassword/>} />
+        <Route path="/register" element={<Registration/>} />
+        <Route path="/emi-calculator" element={<EmiCalculator/>} />
         <Route path="*" element={<NotFoundPage />} />
 
         <Route path="/banker-dashboard" element={<ProtectedRoute component={BankerDashboard} allowedRoles={["banker"]} />}>
