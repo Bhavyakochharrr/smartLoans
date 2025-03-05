@@ -9,6 +9,6 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(staticPath, 'index.html'))
 })
  
-app.listen(81, () => {
-    console.log('listening on port http://18.235.240.97:81')
+app.listen(80, () => {
+    console.log('listening on port http://18.235.240.97:80')
 })
