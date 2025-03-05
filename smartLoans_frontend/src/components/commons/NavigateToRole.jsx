@@ -32,7 +32,7 @@ const NavigateToRole = () => {
           default:
             navigate("/home");
         }
-    }, [navigate, role,token]);
+    }, [role,token]);
    
     return null;
   };
