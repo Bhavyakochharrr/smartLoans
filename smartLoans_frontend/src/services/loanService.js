@@ -35,6 +35,6 @@ export const fetchActiveLoanDetails = async (accountNumber) => {
   });
   return response.data.loans.filter(loan => 
     loan.status.toLowerCase() === "approved"
-  );
+  ) || [];
 };
 

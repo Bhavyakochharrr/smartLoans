@@ -31,63 +31,72 @@ import EMIPayment from "./components/Customer/EMIPayments";
 import PreClosure from "./components/Customer/PreClosure";
 import ChatbotComponent from "./components/Home/ChatbotComponent";
 import AdminLayout from "./components/Admin/AdminLayout";
-import NavigateToRole from "./components/commons/NavigateToRole";
+// import NavigateToRole from "./components/commons/NavigateToRole";
 import { useAuth } from "./contexts/AuthContext";
 import PublicRoute from "./components/commons/PublicRoute";
 import CreateUser from "./components/Admin/CreateUser";
 import ActivateUser from "./components/Admin/ActivateUser";
+import NavigateToRole from "./components/commons/NavigateToRole";
 const App = () => {
   const { token, role } = useAuth();
-
+ 
   useEffect(() => {
     const handleBackButton = (event) => {
-      if (!token) return; // Allow normal back navigation if user is not logged in
-  
+      // If user is not logged in, allow normal back navigation
+      if (!token) return;
+ 
+      // Get current path
       const currentPath = window.location.pathname;
-  
-      // Prevent navigating back if on dashboard or loan application pages
-      if (currentPath.includes("dashboard") || currentPath.includes("apply-loan")) {
+ 
+      // If user has multiple roles and is in a dashboard
+      if (currentPath.includes('dashboard') || currentPath.includes('apply-loan')) {
         event.preventDefault();
-        window.history.pushState(null, "", currentPath);
+        window.history.pushState(null, '', currentPath);
       }
     };
-  
+ 
+    // Add initial history state when component mounts
     if (token) {
-      // Only add a history state if not already present
-      if (!window.history.state) {
-        window.history.replaceState({ from: window.location.pathname }, "", window.location.pathname);
-      }
-  
-      window.addEventListener("popstate", handleBackButton);
+      // Clear existing history states
+      window.history.replaceState(null, '', window.location.pathname);
+ 
+      // Add new history state
+      window.history.pushState(
+        { from: window.location.pathname },
+        '',
+        window.location.pathname
+      );
+ 
+      window.addEventListener('popstate', handleBackButton);
     }
-  
+ 
     return () => {
       if (token) {
-        window.removeEventListener("popstate", handleBackButton);
+        window.removeEventListener('popstate', handleBackButton);
       }
     };
-  }, [token]); // Removed `role` from dependencies to prevent unnecessary re-runs
-  
-
-
+  }, [token, role]);
+ 
+ 
   return (
     <Router>
       <RoleBasedNavBar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgotPassword" element={<ForgotPassword/>} />
-        <Route path="/register" element={<Registration/>} />
-        <Route path="/emi-calculator" element={<EmiCalculator/>} />
+        <Route path="/" element={<NavigateToRole />} />
+        <Route path="/home" element={<PublicRoute component={Home} />} />
+        <Route path="/login" element={<PublicRoute component={Login} />} />
+        <Route path="/forgotPassword" element={<PublicRoute component={ForgotPassword} />} />
+        <Route path="/register" element={<PublicRoute component={Registration} />} />
+        <Route path="/emi-calculator" element={<PublicRoute component={EmiCalculator} />} />
         <Route path="*" element={<NotFoundPage />} />
-
+ 
         <Route path="/banker-dashboard" element={<ProtectedRoute component={BankerDashboard} allowedRoles={["banker"]} />}>
           <Route index element={<BankerHome />} />
           <Route path="loans" element={<LoanApplications />} />
           <Route path="reviewed" element={<ReviewedApplications />} />
           <Route path="profile" element={<Profile />} />
         </Route>
-
+ 
         <Route path="/admin-dashboard" element={<ProtectedRoute component={AdminLayout} allowedRoles={["admin"]} />}>
           <Route index element={<Dashboard />} />
           <Route path="customers" element={<ProtectedRoute component={Customers} allowedRoles={["admin"]} />} />
@@ -95,7 +104,7 @@ const App = () => {
           <Route path="create-user" element={<ProtectedRoute component={CreateUser} allowedRoles={["admin"]} />} />
           <Route path="activate-user" element={<ProtectedRoute component={ActivateUser} allowedRoles={["admin"]}/>}/>
         </Route>
-
+ 
         <Route path="/customer-dashboard" element={<ProtectedRoute component={CustomerDashboard} allowedRoles={["user"]} />}>
           <Route index element={<CustomerHome />} />
           <Route path="apply-loan" element={<ProtectedRoute component={LoanApplication} allowedRoles={["user"]} />} />
@@ -123,5 +132,5 @@ const App = () => {
     </Router>
   );
 };
-
+ 
 export default App;

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Modal, Form, Container, Row, Col, Card } from "react-bootstrap";
+import { Table, Button, Modal, Container, Row, Col, Card } from "react-bootstrap";
 import { getCustomers,deactivateCustomer } from "../../services/adminService";
-import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
   const [error, setError] = useState(null);
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [customerToDelete, setCustomerToDeactivate] = useState(null);
   const navigate=useNavigate();

@@ -5,7 +5,7 @@ const createApp = require('./app');
 
 async function main(){
     const app = await createApp();
-    httpx.runApp({protocol:'http',
+    httpx.runApp({protocol:'https',
         requestHandler:app,
     
         initializer: async()=>{

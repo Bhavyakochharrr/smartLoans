@@ -18,6 +18,11 @@ async function createApp(){
     app.use(express.static(path.join(process.cwd(), 'public')));
 
     app.use(tokenDecorder(public_key, {algorithms: ['RS256']}));
+    // app.use((req, res, next) => {
+    //     console.log("Received Token:", req.headers.authorization);
+    //     next();
+    // });
+    
 
     // app.use((request,response,next)=>{
     //     console.log('request.user', request.user);   

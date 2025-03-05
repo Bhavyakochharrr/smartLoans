@@ -1,8 +1,7 @@
-// Component for Redirecting Users Based on Role
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useEffect } from "react";
-
+ 
 // src/commons/components/NavigateToRole.jsx
 const NavigateToRole = () => {
     const navigate = useNavigate();
@@ -36,5 +35,5 @@ const NavigateToRole = () => {
    
     return null;
   };
-
+ 
 export default NavigateToRole;
