@@ -2,7 +2,7 @@
 export const API_CONFIG = {
   SERVICES: {
     USER: {
-      BASE_URL: "https://18.235.240.97:4001/api",
+      BASE_URL: "http://18.235.240.97:4001/api",
       PREFIX: "/users"
     },
     LOAN: {
