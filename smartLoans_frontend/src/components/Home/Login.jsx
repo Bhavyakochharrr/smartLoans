@@ -19,7 +19,7 @@ const Login = () => {
       console.log("handle login",data);
       // Extract user and roles before setting the state
       const user = data.user;
-      const userRole = user.roles[0]; 
+      const userRole = user.roles[0].trim(); 
 
       // Save token & user in AuthContext
       await login(data.token, user);

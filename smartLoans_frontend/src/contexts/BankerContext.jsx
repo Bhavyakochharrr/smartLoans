@@ -32,7 +32,7 @@ export const BankerProvider = ({ children, token, user }) => {
  
   const fetchLoans = async () => {
     try {
-      const response = await axios.get("http://localhost:2000/api/banker/loans", {
+      const response = await axios.get("http://18.235.240.97:2000/api/banker/loans", {
         headers: {
           Authorization: `Bearer ${token}`
         }
