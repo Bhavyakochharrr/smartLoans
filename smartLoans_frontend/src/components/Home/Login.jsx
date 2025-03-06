@@ -16,10 +16,10 @@ const Login = () => {
     e.preventDefault();
     try {
       const data = await AuthService.login(email, password);
-      console.log("handle login",data);
+      
       // Extract user and roles before setting the state
       const user = data.user;
-      const userRole = user.roles[0].trim(); 
+      const userRole = user.roles[0]; 
 
       // Save token & user in AuthContext
       await login(data.token, user);
