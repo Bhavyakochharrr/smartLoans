@@ -12,6 +12,7 @@ const ActivateUser = () => {
     e.preventDefault();
     
     if (!email) {
+      
       toast.error('Please enter an email address');
       return;
     }
