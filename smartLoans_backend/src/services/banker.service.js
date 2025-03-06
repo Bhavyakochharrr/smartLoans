@@ -64,7 +64,7 @@ class BankerService {
             throw new AuthenticationError('Authentication token is required');
           }
       
-          const response = await axios.get(`http://localhost:5003/api/cibil/${panNumber}`, {
+          const response = await axios.get(`http://18.235.240.97:5003/api/cibil/${panNumber}`, {
             headers: {
               Authorization: `Bearer ${token}`
             }
@@ -85,7 +85,7 @@ class BankerService {
             throw new AuthenticationError('Authentication token is required');
           }
       
-          const response = await axios.get(`http://localhost:5002/api/itr/${panNumber}`, {
+          const response = await axios.get(`http://18.235.240.97:5002/api/itr/${panNumber}`, {
             headers: {
               Authorization: `Bearer ${token}`
             }

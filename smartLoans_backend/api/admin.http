@@ -1,4 +1,4 @@
-@apiUrl = http://localhost:2000/api/admins
+@apiUrl = http://18.235.240.97:2000/api/admins
 
 ### Register an Admin
 POST {{apiUrl}}/register

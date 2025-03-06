@@ -1,4 +1,4 @@
-@api_url = http://localhost:5003/api/cibil/AMCOP9101K
+@api_url = http://18.235.240.97:5003/api/cibil/AMCOP9101K
 
 
 ### Get All Users

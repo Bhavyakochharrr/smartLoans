@@ -1,4 +1,4 @@
-@base_url = https://localhost:7000/api
+@base_url = https://18.235.240.97:7000/api
 
 # @name getPublicKey
 GET {{base_url}}/public/key

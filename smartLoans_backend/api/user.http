@@ -1,4 +1,4 @@
-@api_url = https://localhost:4000/api/users
+@api_url = https://18.235.240.97:4000/api/users
 
 
 ### Get All Users
