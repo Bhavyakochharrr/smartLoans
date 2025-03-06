@@ -37,6 +37,7 @@ import PublicRoute from "./components/commons/PublicRoute";
 import CreateUser from "./components/Admin/CreateUser";
 import ActivateUser from "./components/Admin/ActivateUser";
 import NavigateToRole from "./components/commons/NavigateToRole";
+
 const App = () => {
   const { token, role } = useAuth();
  
