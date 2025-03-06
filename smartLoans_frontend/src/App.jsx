@@ -70,7 +70,6 @@ const App = () => {
  
       window.addEventListener('popstate', handleBackButton);
     }
- 
     return () => {
       if (token) {
         window.removeEventListener('popstate', handleBackButton);
