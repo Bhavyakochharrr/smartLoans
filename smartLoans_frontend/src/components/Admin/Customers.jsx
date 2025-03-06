@@ -88,11 +88,11 @@ const Customers = () => {
           <Modal.Title>Confirm Delete</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Are you sure you want to delete {customerToDelete?.name}?
+          Are you sure you want to deactivate {customerToDelete?.name}?
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Cancel</Button>
-          <Button variant="danger" onClick={handleDeactivateCustomer}>Delete</Button>
+          <Button variant="danger" onClick={handleDeactivateCustomer}>Deactivate</Button>
         </Modal.Footer>
       </Modal>
     </Container>
